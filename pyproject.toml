@@ -1,0 +1,44 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "deep-flight-search-bot"
+version = "1.0.0"
+description = "Telegram bot for deep, source-aware flight itinerary research"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Deep Flight Search Bot contributors" }]
+dependencies = [
+  "httpx>=0.27,<1",
+  "openai>=2.0,<3",
+  "pydantic-settings>=2.5,<3",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3,<9",
+  "pytest-asyncio>=0.24,<1",
+  "ruff>=0.9,<1",
+]
+
+[project.scripts]
+deep-flight-bot = "flight_bot.main:run"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/flight_bot"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"src/flight_bot/system_ru.md" = "flight_bot/system_ru.md"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+asyncio_mode = "auto"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
